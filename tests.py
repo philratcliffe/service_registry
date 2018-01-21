@@ -10,8 +10,8 @@ import json
 
 import http_status
 
-class TestServiceRegistry(unittest.TestCase):
 
+class TestServiceRegistry(unittest.TestCase):
     def setUp(self):
         """ Populate the service registry. """
 
@@ -62,11 +62,8 @@ class TestServiceRegistry(unittest.TestCase):
 
     def tearDown(self):
         """ Delete services from service registry. """
-        requests.delete(
-            'http://localhost:5000/services/v1.0/test')
-        requests.delete(
-            'http://localhost:5000/services/v1.0/test2')
-
+        requests.delete('http://localhost:5000/services/v1.0/test')
+        requests.delete('http://localhost:5000/services/v1.0/test2')
 
     def test_add_service(self):
         data = {'service_name': 'test', 'service_version': '0.0.1'}
@@ -101,7 +98,6 @@ class TestServiceRegistry(unittest.TestCase):
 
         self.assertEqual(response.status_code, http_status.BAD_REQUEST)
 
-
     def test_invalid_url(self):
         data = {'service_name': 'test', 'service_version': '0.0.1'}
         data_json = json.dumps(data)
@@ -114,23 +110,17 @@ class TestServiceRegistry(unittest.TestCase):
 
         self.assertEqual(response.status_code, http_status.NOT_FOUND)
 
-
     def test_delete_service(self):
-        response = requests.delete(
-            'http://localhost:5000/services/v1.0/test')
+        response = requests.delete('http://localhost:5000/services/v1.0/test')
 
-        exptected_result = {
-            "resp": {
-                "change": "removed",
-                "service": "test"
-            }
-        }
+        exptected_result = {"resp": {"change": "removed", "service": "test"}}
 
         self.assertEqual(response.status_code, http_status.OK)
         self.assertEqual(response.json(), exptected_result)
 
     def test_find_existing_service_with_version(self):
-        response = requests.get('http://localhost:5000/services/v1.0/test2/0.0.2')
+        response = requests.get(
+            'http://localhost:5000/services/v1.0/test2/0.0.2')
 
         exptected_result = {
             "resp": {
@@ -143,9 +133,9 @@ class TestServiceRegistry(unittest.TestCase):
         self.assertEqual(response.status_code, http_status.OK)
         self.assertEqual(response.json(), exptected_result)
 
-
     def test_find_non_existing_service_with_version(self):
-        response = requests.get('http://localhost:5000/services/v1.0/test/0.0.4')
+        response = requests.get(
+            'http://localhost:5000/services/v1.0/test/0.0.4')
 
         exptected_result = {
             "resp": {
@@ -165,11 +155,10 @@ class TestServiceRegistry(unittest.TestCase):
             "resp": {
                 "service": "test",
                 "count": 4,
-                }
+            }
         }
         self.assertEqual(response.status_code, http_status.OK)
         self.assertEqual(response.json(), exptected_result)
-
 
 
 if __name__ == "__main__":
