@@ -1,5 +1,4 @@
 #!flask/bin/python
-
 """
 
 This is the main module for the registry service.  It uses a Flask and a
@@ -84,6 +83,15 @@ def find_service(service_name, service_version):
     return make_response(jsonify({'resp': resp}), http_status.OK)
 
 
+@app.route('/services/v1.0/<service_name>', methods=['PUT'])
+def update_service():
+    """
+    Update a service.
+    """
+    # TODO
+    return make_response(jsonify({}), http_status.NOT_IMPLEMENTED)
+
+
 def find_service_with_version(service_name, service_version):
     key = get_key(service_name, service_version)
     if key in SERVICES:
@@ -136,6 +144,7 @@ def get_entry(key):
 
 def get_key(service, version):
     return service + '-v' + version
+
 
 def delete_service_records(service_name):
     keys_to_delete = []
