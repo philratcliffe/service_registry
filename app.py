@@ -106,7 +106,6 @@ def find_service_with_version(service_name, service_version):
 
 def find_service_without_version(service_name):
     resp = {'service': service_name, 'count': 0}
-    print(SERVICES)
     for k, v in SERVICES.items():
         if v['service'] == service_name:
             resp['count'] += v['count']
