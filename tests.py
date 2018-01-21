@@ -129,6 +129,47 @@ class TestServiceRegistry(unittest.TestCase):
         self.assertEqual(response.status_code, http_status.OK)
         self.assertEqual(response.json(), exptected_result)
 
+    def test_find_existing_service_with_version(self):
+        response = requests.get('http://localhost:5000/services/v1.0/test2/0.0.2')
+
+        exptected_result = {
+            "resp": {
+                "service": "test2",
+                "version": "0.0.2",
+                "count": 2,
+            }
+        }
+
+        self.assertEqual(response.status_code, http_status.OK)
+        self.assertEqual(response.json(), exptected_result)
+
+
+    def test_find_non_existing_service_with_version(self):
+        response = requests.get('http://localhost:5000/services/v1.0/test/0.0.4')
+
+        exptected_result = {
+            "resp": {
+                "service": "test",
+                "version": "0.0.4",
+                "count": 0,
+            }
+        }
+
+        self.assertEqual(response.status_code, http_status.OK)
+        self.assertEqual(response.json(), exptected_result)
+
+    def test_find_non_existing_service_without_version(self):
+        response = requests.get('http://localhost:5000/services/v1.0/test')
+
+        exptected_result = {
+            "resp": {
+                "service": "test",
+                "count": 4,
+                }
+        }
+        self.assertEqual(response.status_code, http_status.OK)
+        self.assertEqual(response.json(), exptected_result)
+
 
 
 if __name__ == "__main__":
