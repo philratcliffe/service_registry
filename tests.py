@@ -148,7 +148,7 @@ class TestServiceRegistry(unittest.TestCase):
         self.assertEqual(response.status_code, http_status.OK)
         self.assertEqual(response.json(), exptected_result)
 
-    def test_find_non_existing_service_without_version(self):
+    def test_find_existing_service_without_version(self):
         response = requests.get('http://localhost:5000/services/v1.0/test')
 
         exptected_result = {
